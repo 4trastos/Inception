@@ -48,6 +48,11 @@ Además, se recomienda encarecidamente utilizar un archivo `.env` para almacenar
 
 Tu contenedor NGINX debe ser el único punto de entrada a tu infraestructura a través del puerto 443 únicamente, utilizando el protocolo TLSv1.2 o TLSv1.3.
 
+### Aquí hay un diagrama de ejemplo
+
+![example diagram](./images/map.png)
+
+
 ### Estructura de Directorios Esperada
 
 ```bash
