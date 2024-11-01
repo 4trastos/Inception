@@ -1,5 +1,5 @@
 # Inception
-This project aims to broaden your knowledge of system administration by using Docker. You will virtualize several Docker images, creating them in your new personal virtual machine.
+Este proyecto tiene como objetivo ampliar tus conocimientos sobre administración de sistemas mediante el uso de Docker. Virtualizarás varias imágenes de Docker y las crearás en tu nueva máquina virtual personal.
 
 # Proyecto de Infraestructura con Docker Compose
 
