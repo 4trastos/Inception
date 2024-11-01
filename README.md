@@ -1,4 +1,4 @@
-# Inception
+# Inception 🇪🇸
 Este proyecto tiene como objetivo ampliar tus conocimientos sobre administración de sistemas mediante el uso de Docker. Virtualizarás varias imágenes de Docker y las crearás en tu nueva máquina virtual personal.
 
 # Proyecto de Infraestructura con Docker Compose
@@ -137,3 +137,106 @@ MYSQL_PASSWORD=XXXXXXXXXXXX
 
 Con estos pasos, el proyecto estaría estructurado y funcional según los requisitos.
 
+# Inception 🇬🇧
+This project aims to expand your knowledge of system administration by using Docker. You will virtualize several Docker images and build them in your new personal virtual machine.
+
+# Infrastructure Project with Docker Compose
+
+## Mandatory Part
+
+This project consists of setting up a small infrastructure composed of different services under specific rules. The entire project must be done in a virtual machine. **Docker Compose** must be used.
+
+Each Docker image must have the same name as its corresponding service.
+Each service must run in a dedicated container.
+
+For performance reasons, containers must be built from either the penultimate stable version of Alpine or Debian. The choice is yours.
+
+Also, you have to write your own Dockerfiles, one for each service. Dockerfiles must be called in your `docker-compose.yml` file by your Makefile. This means that you must build your project's Docker images yourself. It is forbidden to use ready-made Docker images or services like DockerHub (except Alpine/Debian from this rule).
+
+Then, you need to set up:
+
+- A Docker container containing **NGINX** with TLSv1.2 or TLSv1.3 only.
+- A Docker container containing **WordPress + php-fpm** (must be installed and configured) without nginx.
+- A Docker container containing **MariaDB** without nginx.
+- A volume containing the WordPress database.
+- A second volume containing the WordPress website files.
+- A Docker network establishing the connection between your containers.
+
+Your containers must be restarted in case of a failure.
+A Docker container is not a virtual machine. Therefore, it is not recommended to use hacky patches based on 'tail -f' and similar when trying to run them. Read about how daemons work and whether it is a good idea to use them or not.
+
+Of course, using `network: host`, `--link` or `links:` is prohibited. The network line must be present in your `docker-compose.yml` file.
+
+Containers should not be started with a command that runs an infinite loop. This also applies to any command used as an entrypoint or in entrypoint scripts. Here are some hacky forbidden patches: `tail -f`, `bash`, `sleep infinity`, `while true`.
+Read about PID 1 and best practices for writing Dockerfiles.
+
+- In your WordPress database, there must be two users, one of them being the administrator. The administrator username cannot contain "admin" or "administrator" (e.g. admin, administrator, admin-123, etc.).
+
+Your volumes will be available in the `/home/login/data` folder on the host machine using Docker. You must replace "login" with your own.
+
+For simplicity, you need to configure your domain name to point to your local IP address.
+This domain name should be `login.42.fr`. Again, you must use your own login.
+For example, if your login is "wil", `wil.42.fr` will redirect to the IP address pointing to the "wil" website.
+
+The use of the `latest` tag is prohibited.
+
+There should be no passwords present in your Dockerfiles.
+It is mandatory to use environment variables.
+
+Also, it is highly recommended to use a `.env` file to store environment variables. The `.env` file should be located in the root of the `srcs` directory.
+
+Your NGINX container should be the only entry point to your infrastructure via port 443 only, using the TLSv1.2 or TLSv1.3 protocol.
+
+### Here is an example diagram
+
+![example diagram](./images/map.png)
+
+### Expected Directory Structure
+
+```bash
+$> ls -alR
+total XX
+drwxrwxr-x 3 wil wil 4096 abril 42 20:42 .
+drwxrwxrwt 17 wil wil 4096 abril 42 20:42 ..
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 Makefile
+drwxrwxr-x 3 wil wil 4096 abril 42 20:42 srcs
+
+./srcs:
+total XX
+drwxrwxr-x 3 wil wil 4096 abril 42 20:42 .
+drwxrwxr-x 3 wil wil 4096 abril 42 20:42 ..
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 docker-compose.yml
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 .env
+drwxrwxr-x 5 wil wil 4096 abril 42 20:42 requirements
+
+./srcs/requirements:
+total XX
+drwxrwxr-x 5 wil wil 4096 abril 42 20:42 .
+drwxrwxr-x 3 wil wil 4096 abril 42 20:42 ..
+drwxrwxr-x 4 wil wil 4096 abril 42 20:42 mariadb
+drwxrwxr-x 4 wil wil 4096 abril 42 20:42 nginx
+drwxrwxr-x 4 wil wil 4096 abril 42 20:42 wordpress
+
+./srcs/requirements/mariadb:
+total XX
+drwxrwxr-x 4 wil wil 4096 abril 42 20:45 .
+drwxrwxr-x 5 wil wil 4096 abril 42 20:42 ..
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 Dockerfile
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 .dockerignore
+[...]
+
+./srcs/requirements/nginx:
+total XX
+drwxrwxr-x 4 wil wil 4096 abril 42 20:42 .
+drwxrwxr-x 5 wil wil 4096 abril 42 20:42 ..
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 Dockerfile
+-rw-rw-r-- 1 wil wil XXXX abril 42 20:42 .dockerignore
+[...]
+$> cat srcs/.env
+DOMAIN_NAME=wil.42.fr
+# MYSQL CONFIGURATION
+MYSQL_ROOT_PASSWORD=XXXXXXXXXXXX
+MYSQL_USER=XXXXXXXXXXXX
+MYSQL_PASSWORD=XXXXXXXXXXXX
+[...]
+```
