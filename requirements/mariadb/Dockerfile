@@ -2,11 +2,10 @@ FROM debian:11
 
 RUN apt -y update && apt -y upgrade && apt install -y mariadb-server
 
-COPY 50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY init.sql /etc/mysql/init.sql
-COPY script.sh .
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
+COPY ./tools/init.sql /etc/mysql/init.sql 
 
-RUN mkdir /run/mysqld && chmod +x script.sh
+RUN mkdir /run/mysqld
 
-CMD ["mysqld_safe"]
-CMD ["./script.sh"]
+CMD ["mysqld"]
+#CMD ["mysqld_safe"]
