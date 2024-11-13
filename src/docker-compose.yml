@@ -1,0 +1,53 @@
+version: "3.1"
+
+networks:
+  inception:
+
+services:
+  nginx:
+    build: requirements/nginx/.
+    container_name: nginx
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      inception:
+
+  wordpress:
+    build: requirements/wordpress/.
+    container_name: wp-php
+    image: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      inception:
+
+  mariadb:
+    build: requirements/mariadb/.
+    container_name: mariadb
+    image: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      inception:
+
+volumes:
+  wordpress_data:
+    name: wordpress_data
+    driver: local
+    driver_opts:
+      type: none
+      device: "/home/davgalle/data/wordpress"
+      o: bind
+
+  mariadb_data:
+    name: mariadb_data
+    driver: local
+    driver_opts:
+      type: none
+      device: "/home/davgalle/data/mariadb"
+      o: bind
