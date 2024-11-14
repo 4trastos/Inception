@@ -14,8 +14,6 @@ RUN apt -y update && apt -y install php8.2-fpm php8.2-mysql
 
 RUN mkdir -p /run/php/ && chown -R www-data:www-data /run/php/
 
-#RUN apt -y install curl
-
 COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/.
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -28,8 +26,12 @@ RUN chmod +x /usr/local/bin/script.sh
 
 WORKDIR /var/www/html
 
+EXPOSE 9000
+
 CMD ["php-fpm8.2", "-F"]
-CMD ["/usr/local/bin/script.sh"]
+CMD ["/bin/bash", "/usr/local/bin/script.sh"]
+
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/script.sh"]
 
 #FROM debian:bullseye
 
