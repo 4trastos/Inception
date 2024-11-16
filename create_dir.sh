@@ -1,6 +1,6 @@
 mkdir -p data
-touch data/mariadb
-touch data/wordpress
+mkdir -p data/mariadb
+mkdir -p data/wordpress
 
 mkdir -p inception
 
@@ -19,9 +19,9 @@ mkdir -p inception/src/requirements/mariadb/conf
 mkdir -p inception/src/requirements/mariadb/tools
 touch inception/src/requirements/mariadb/Dockerfile
 
-mkdir -p inception/src/requirements/nginx/tools
+mkdir -p inception/src/requirements/nginx/conf
 touch inception/src/requirements/nginx/Dockerfile
 
 mkdir -p inception/src/requirements/wordpress/conf
 mkdir -p inception/src/requirements/wordpress/tools
-mkdir inception/src/requirements/wordpress/Dockerfile
+touch inception/src/requirements/wordpress/Dockerfile
