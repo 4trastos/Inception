@@ -4,8 +4,6 @@ RUN apt -y update && apt -y upgrade
 
 RUN apt-get -y install lsb-release ca-certificates apt-transport-https software-properties-common wget gnupg2
 
-RUN apt-get install -y curl mariadb-client
-
 RUN apt-get -y install iputils-ping
 
 RUN wget -qO /usr/share/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
@@ -15,6 +13,8 @@ RUN echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/
 RUN apt -y update && apt -y install php8.2-fpm php8.2-mysql
 
 RUN mkdir -p /run/php/ && chown -R www-data:www-data /run/php/
+
+RUN apt-get install -y curl mariadb-client
 
 COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/.
 
