@@ -1,4 +1,5 @@
 all: setup
+	@make setup
 	@docker compose -f ./src/docker-compose.yml up -d --build
 
 down:
@@ -19,4 +20,3 @@ setup:
 	@mkdir -p /home/davgalle/data/wordpress
 
 .PHONY: all down clean setup
-
