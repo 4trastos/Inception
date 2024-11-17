@@ -23,4 +23,3 @@ access_data:
 	docker exec -it mariadb mysql -u root -p -e "USE wordpress; SELECT * FROM wp_users;"
 
 .PHONY: all down clean setup
-
